@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f5f4ef">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='9' fill='%23baff32' stroke='%23111' stroke-width='2'/%3E%3C/svg%3E">
+<meta name="description" content="A pharmacy-assistance system designed to help ESIC patients check medicine availability and reduce unnecessary waiting through a kiosk-first flow. Project overview, status, what I learned, challenges and next steps by Ambati Jagadiswar Reddy.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="What I learned: ESIC MedStock | JAGADISWAR.">
+<meta property="og:description" content="A pharmacy-assistance system designed to help ESIC patients check medicine availability and reduce unnecessary waiting through a kiosk-first flow. Project overview, status, what I learned, challenges and next steps by Ambati Jagadiswar Reddy.">
+<title>What I learned: ESIC MedStock | JAGADISWAR.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../assets/learning.css">
+</head>
+<body style="--accent:#baff32;--accent-ink:#273510">
+<a class="skip-link" href="#content">Skip to content</a>
+<header class="site-header"><div class="container nav">
+  <a class="brand" href="../index.html#top" aria-label="JAGADISWAR home"><span class="brand-dot"></span>JAGADISWAR.</a>
+  <div class="nav-actions">
+    <a class="btn btn-light optional" href="../index.html#work">All projects <span class="btn-icon">↗</span></a>
+    <a class="btn btn-dark" href="../resume.pdf" download="Ambati-Jagadiswar-Reddy-Resume.pdf">Resume <span class="btn-icon">↓</span></a>
+  </div>
+</div></header>
+<main id="content">
+  <section class="hero"><div class="container">
+    <div class="crumb"><span class="crumb-dot"></span><span>JAGADISWAR / LEARNINGS / ESIC-MEDSTOCK</span></div>
+    <div class="hero-grid">
+      <div>
+        <div class="project-overline">HEALTHCARE / INVENTORY</div>
+        <h1 class="display">What I learned<br>building <em>ESIC MedStock.</em></h1>
+        <div class="hero-tags"><span class="status-pill"><i></i>Working prototype</span><span class="tag">Next.js</span><span class="tag">TypeScript</span><span class="tag">Firebase</span><span class="tag">Firestore</span></div>
+      </div>
+      <div class="hero-copy">
+        <p>A pharmacy-assistance system designed to help ESIC patients check medicine availability and reduce unnecessary waiting through a kiosk-first flow.</p>
+        <div class="hero-buttons">
+          <a class="btn btn-lime" href="https://github.com/jagadiswarambati/esic-smart-pharmacy-kiosk" target="_blank" rel="noopener noreferrer">View repository on GitHub <span class="btn-icon">↗</span></a>
+          <a class="btn btn-light" href="../index.html#work">Back to portfolio <span class="btn-icon">↗</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="hero-stamp"><span>LEARNINGS / ESIC-MEDSTOCK</span><span>WORKING PROTOTYPE</span><span>AMBATI JAGADISWAR REDDY</span></div>
+  </div></section>
+
+  <section class="section" id="overview"><div class="container">
+    <div class="section-head"><div class="section-index"><strong>01</strong> / OVERVIEW &amp; STATUS</div>
+      <div><h2 class="display">What it is, and where it stands.</h2></div></div>
+    <div class="overview">
+      <div class="overview-text"><p>The web kiosk lets a patient pick a hospital branch, look up a prescription by ID or QR code, and see whether each prescribed medicine is available, limited, out of stock, or unknown, along with queue information.</p><p>It is a prototype built on Next.js and Firebase Cloud Firestore. The same Firestore database is also used by an Android app, so stock updated by pharmacy staff on the app shows up on the kiosk. The two apps never talk to each other directly.</p></div>
+      <dl class="facts"><div class="fact-row"><dt>Status</dt><dd>Working prototype (web kiosk)</dd></div><div class="fact-row"><dt>Platform</dt><dd>Web kiosk, Next.js App Router; Vercel deployment per the README</dd></div><div class="fact-row"><dt>Data</dt><dd>Cloud Firestore: inventory, prescriptions, queue, hospital_status</dd></div><div class="fact-row"><dt>Branches in the test plan</dt><dd>Peenya, Sanath Nagar, Basaidarapur</dd></div><div class="fact-row"><dt>Interface languages</dt><dd>English, Telugu, Hindi</dd></div><div class="fact-row"><dt>Stack</dt><dd>Next.js 16, React 19, TypeScript, Tailwind CSS 4, Firebase SDK, Framer Motion, html5-qrcode</dd></div></dl>
+    </div>
+    
+  </div></section>
+
+  <section class="section" id="learned"><div class="container">
+    <div class="section-head"><div class="section-index"><strong>02</strong> / WHAT I LEARNED</div>
+      <div><h2 class="display">Lessons from the build.</h2><p class="section-intro">The biggest lessons came from one stubborn bug: patients saw “Inventory Record Not Found” even though related medicine data existed.</p></div></div>
+    <div class="lesson-grid"><article class="lesson-card"><div class="lesson-number">LESSON / 01</div><h3>A missing record is not an empty shelf</h3><p>The availability logic returns four states: available, limited, out of stock and unknown. “Out of stock” is only shown when an inventory record confirms zero stock or unavailability. No record means “unknown”, never “out”.</p></article><article class="lesson-card"><div class="lesson-number">LESSON / 02</div><h3>Debug the data flow, not the screen</h3><p>The fix came from tracing the whole chain (prescription, medicine reference, medicine identifier, inventory lookup, hospital validation) and checking it against the actual Firestore data instead of tweaking the UI.</p></article><article class="lesson-card"><div class="lesson-number">LESSON / 03</div><h3>Real identifiers are messy</h3><p>Prescriptions often store an inventory document ID where a medicine name or code is expected, and names can carry hospital suffixes. The lookup therefore indexes each inventory item by document ID, medicine code, medicine name and a normalized identity.</p></article><article class="lesson-card"><div class="lesson-number">LESSON / 04</div><h3>A shared screen needs session hygiene</h3><p>The kiosk returns to the dashboard after 2 minutes of inactivity, with a warning in the last 30 seconds, and any touch, key press or scroll resets the timer. Language switching and manual ID entry (alongside QR scanning) keep it usable for more patients.</p></article></div>
+    <div class="concepts-head"><span>TECHNICAL CONCEPTS</span></div>
+    <div class="concept-grid"><div class="concept"><h4>Firestore document model</h4><p>Four collections (inventory, prescriptions, queue, hospital_status) shared by the web kiosk and the Android app.</p></div><div class="concept"><h4>Real-time listeners</h4><p>The dashboard, queue and prescription pages use Firestore onSnapshot listeners for live data.</p></div><div class="concept"><h4>Identifier normalization</h4><p>Helper functions trim, lowercase and strip hospital suffixes and punctuation so near-identical names resolve to one identity.</p></div><div class="concept"><h4>Branch scoping</h4><p>An isSameHospital check compares normalized hospital values so one branch’s stock is not shown for another branch’s prescription.</p></div><div class="concept"><h4>Shared pure logic</h4><p>Availability classification lives in one utility module used by both the prescription and inventory pages.</p></div><div class="concept"><h4>Failure states as UI</h4><p>Offline status, a Firestore permission warning, and error and not-found pages are part of the interface.</p></div></div>
+  </div></section>
+
+  <section class="section" id="decisions"><div class="container">
+    <div class="section-head"><div class="section-index"><strong>03</strong> / CHALLENGES &amp; DECISIONS</div>
+      <div><h2 class="display">Challenges and engineering decisions.</h2><p class="section-intro">Where the build pushed back, and what I decided to do about it.</p></div></div>
+    <div class="notes-list"><article class="note-row"><div class="note-label">Data matching</div><div><h3>Prescription and inventory IDs did not line up across branches</h3><p class="note-q"><span>CHALLENGE</span>Lookups returned “not found” when the identifiers in prescriptions did not match the ones in inventory records.</p><p class="note-a"><span>DECISION</span>Build a lookup map keyed by several deterministic identifiers in priority order (document ID, medicine code, medicine name, normalized identity) and share that logic across pages.</p></div></article><article class="note-row"><div class="note-label">Trust</div><div><h3>Unknown being mistaken for out of stock</h3><p class="note-q"><span>CHALLENGE</span>Treating a failed lookup as zero stock would tell a patient a medicine is unavailable when the system simply could not find it.</p><p class="note-a"><span>DECISION</span>Return a separate unknown state, and only report out of stock when a valid record says so. In code, more than 5 units counts as available and 1 to 5 as limited.</p></div></article><article class="note-row"><div class="note-label">Correctness</div><div><h3>Records leaking across hospital branches</h3><p class="note-q"><span>CHALLENGE</span>The same medicine can exist at several branches with different stock.</p><p class="note-a"><span>DECISION</span>Validate the hospital on both the prescription and the inventory record before displaying anything.</p></div></article><article class="note-row"><div class="note-label">Security honesty</div><div><h3>Admin settings on a public screen</h3><p class="note-q"><span>CHALLENGE</span>Changing the kiosk’s hospital is gated by an admin PIN, but the PIN comes from a NEXT_PUBLIC environment variable, which is visible in the browser bundle.</p><p class="note-a"><span>DECISION</span>The code documents this as a prototype-level convenience gate, not a secure server-side secret. Being explicit about what is and is not a security boundary is part of the design.</p></div></article><article class="note-row"><div class="note-label">Regression risk</div><div><h3>Fixing one flow without breaking the others</h3><p class="note-q"><span>CHALLENGE</span>Lookup changes touch the prescription, inventory, queue and QR flows.</p><p class="note-a"><span>DECISION</span>The SDLC docs keep a written test checklist per branch (valid, invalid, missing and wrong-hospital prescriptions, multi-medicine cases) and a regression rule that a lookup fix must not break other working features.</p></div></article></div>
+  </div></section>
+
+  <section class="section" id="next"><div class="container">
+    <div class="section-head"><div class="section-index"><strong>04</strong> / POTENTIAL IMPROVEMENTS</div>
+      <div><h2 class="display">What I would improve next.</h2><p class="section-intro">Ideas grounded in what the current code and documentation say is missing.</p></div></div>
+    <div class="next-box">
+      <h3 class="display">From prototype<br>to something sturdier.</h3>
+      <ul><li>Replace the client-side admin PIN with real authentication and server-side validation for staff workflows.</li><li>Reconcile medicine identifiers across branches at the data level, so lookups rely less on fallback matching.</li><li>Turn the manual test checklist into automated tests for the classification and normalization rules. I did not find automated test files in the repository.</li><li>Show when each stock record was last updated so patients can judge how fresh the availability is.</li><li>Continue the documented roadmap: accessibility improvements, branch-level analytics, and a controlled pharmacy assistant.</li></ul>
+    </div>
+  </div></section>
+
+  <section class="closing"><div class="container">
+    <div class="closing-box">
+      <div>
+        <h2 class="display">The code is the artifact.<br>The learning is the leverage.</h2>
+        <p>Concise notes on ESIC MedStock, written to make the decisions behind it easy to discuss in a review, interview or collaboration.</p>
+      </div>
+      <div class="closing-actions">
+        <a class="btn btn-dark" href="https://github.com/jagadiswarambati/esic-smart-pharmacy-kiosk" target="_blank" rel="noopener noreferrer">GitHub repository <span class="btn-icon">↗</span></a>
+        <a class="btn btn-lime" href="../index.html#work">Back to portfolio <span class="btn-icon">↗</span></a>
+      </div>
+    </div>
+    <nav class="pager" aria-label="Other project learnings">
+      <a class="pager-link" href="bis-smart-assist.html" rel="prev"><span>← PREVIOUS</span><strong>BIS Smart Assist</strong></a>
+      <a class="pager-link next" href="ragsphere.html" rel="next"><span>NEXT →</span><strong>RAGSphere</strong></a>
+    </nav>
+  </div></section>
+</main>
+<footer class="container footer"><a href="../index.html#top">JAGADISWAR.</a><span>LEARNINGS / ESIC-MEDSTOCK</span><span>© 2026 · AJR</span></footer>
+</body>
+</html>

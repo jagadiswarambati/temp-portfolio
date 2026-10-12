@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f5f4ef">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='9' fill='%23baff32' stroke='%23111' stroke-width='2'/%3E%3C/svg%3E">
+<meta name="description" content="An AI-focused build exploring retrieval-augmented generation, contextual search and grounded responses instead of relying on generation alone. Project overview, status, what I learned, challenges and next steps by Ambati Jagadiswar Reddy.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="What I learned: RAGSphere | JAGADISWAR.">
+<meta property="og:description" content="An AI-focused build exploring retrieval-augmented generation, contextual search and grounded responses instead of relying on generation alone. Project overview, status, what I learned, challenges and next steps by Ambati Jagadiswar Reddy.">
+<title>What I learned: RAGSphere | JAGADISWAR.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../assets/learning.css">
+</head>
+<body style="--accent:#a992ff;--accent-ink:#2a1f66">
+<a class="skip-link" href="#content">Skip to content</a>
+<header class="site-header"><div class="container nav">
+  <a class="brand" href="../index.html#top" aria-label="JAGADISWAR home"><span class="brand-dot"></span>JAGADISWAR.</a>
+  <div class="nav-actions">
+    <a class="btn btn-light optional" href="../index.html#work">All projects <span class="btn-icon">↗</span></a>
+    <a class="btn btn-dark" href="../resume.pdf" download="Ambati-Jagadiswar-Reddy-Resume.pdf">Resume <span class="btn-icon">↓</span></a>
+  </div>
+</div></header>
+<main id="content">
+  <section class="hero"><div class="container">
+    <div class="crumb"><span class="crumb-dot"></span><span>JAGADISWAR / LEARNINGS / RAGSPHERE</span></div>
+    <div class="hero-grid">
+      <div>
+        <div class="project-overline">AI / RETRIEVAL</div>
+        <h1 class="display">What I learned<br>building <em>RAGSphere.</em></h1>
+        <div class="hero-tags"><span class="status-pill"><i></i>Functional local application</span><span class="tag">RAG</span><span class="tag">LLMs</span><span class="tag">Embeddings</span><span class="tag">Python</span></div>
+      </div>
+      <div class="hero-copy">
+        <p>An AI-focused build exploring retrieval-augmented generation, contextual search and grounded responses instead of relying on generation alone.</p>
+        <div class="hero-buttons">
+          <a class="btn btn-lime" href="https://github.com/jagadiswarambati/RAGSphere" target="_blank" rel="noopener noreferrer">View repository on GitHub <span class="btn-icon">↗</span></a>
+          <a class="btn btn-light" href="../index.html#work">Back to portfolio <span class="btn-icon">↗</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="hero-stamp"><span>LEARNINGS / RAGSPHERE</span><span>FUNCTIONAL LOCAL APPLICATION</span><span>AMBATI JAGADISWAR REDDY</span></div>
+  </div></section>
+
+  <section class="section" id="overview"><div class="container">
+    <div class="section-head"><div class="section-index"><strong>01</strong> / OVERVIEW &amp; STATUS</div>
+      <div><h2 class="display">What it is, and where it stands.</h2></div></div>
+    <div class="overview">
+      <div class="overview-text"><p>RAGSphere lets you upload PDF and TXT documents, choose one or more of them, and ask questions. Answers are generated from passages retrieved from only the selected documents, and each answer comes with its sources.</p><p>Everything runs locally: a Flask backend, a ChromaDB vector store, and models served by Ollama. It can run directly with Python or through Docker Compose.</p></div>
+      <dl class="facts"><div class="fact-row"><dt>Status</dt><dd>Functional, Dockerized local application</dd></div><div class="fact-row"><dt>Models (via Ollama)</dt><dd>llama3.2:3b for generation, nomic-embed-text for embeddings</dd></div><div class="fact-row"><dt>Backend</dt><dd>Python, Flask, PyMuPDF for text extraction</dd></div><div class="fact-row"><dt>Vector store</dt><dd>ChromaDB, persistent, cosine similarity</dd></div><div class="fact-row"><dt>Frontend</dt><dd>Plain HTML, CSS and JavaScript</dd></div><div class="fact-row"><dt>Deployment</dt><dd>Local or Docker. A public deployment would need a hosted inference environment (per the README)</dd></div></dl>
+    </div>
+    
+  </div></section>
+
+  <section class="section" id="learned"><div class="container">
+    <div class="section-head"><div class="section-index"><strong>02</strong> / WHAT I LEARNED</div>
+      <div><h2 class="display">Lessons from the build.</h2><p class="section-intro">Most of the learning was about the parts around the model: how text is chunked, how retrieval is scoped, and how an answer is kept honest.</p></div></div>
+    <div class="lesson-grid"><article class="lesson-card"><div class="lesson-number">LESSON / 01</div><h3>Retrieval decides answer quality</h3><p>Documents are split into chunks of about 900 characters with 180 characters of overlap. A chunk ends at a sentence or line break only when that break falls past the halfway point, so chunks stay readable without becoming tiny.</p></article><article class="lesson-card"><div class="lesson-number">LESSON / 02</div><h3>Scope retrieval to what the user chose</h3><p>Each chunk is stored with its document ID, and queries filter on the selected document IDs. Single and multi-document questions both stay inside the user’s selection, and with nothing selected the app returns nothing instead of guessing.</p></article><article class="lesson-card"><div class="lesson-number">LESSON / 03</div><h3>Grounding is both a prompt and an interface</h3><p>The system prompt tells the model to answer only from the supplied context and to say so when the context is not enough. Temperature is 0.2. Sources (document, page, chunk, relevance, snippet) are returned so the user can check the claim.</p></article><article class="lesson-card"><div class="lesson-number">LESSON / 04</div><h3>Local models change the architecture</h3><p>Ollama runs on the host while the app can run in a container, so the container reaches it through host.docker.internal. The model endpoint is configurable through an OLLAMA_URL environment variable.</p></article></div>
+    <div class="concepts-head"><span>TECHNICAL CONCEPTS</span></div>
+    <div class="concept-grid"><div class="concept"><h4>Embeddings and cosine similarity</h4><p>Chunks and questions are embedded with nomic-embed-text and compared in a cosine-space ChromaDB collection.</p></div><div class="concept"><h4>Chunking with overlap</h4><p>Overlap keeps context that would otherwise be cut at a chunk boundary.</p></div><div class="concept"><h4>Metadata filtering</h4><p>Vector search is restricted with a where filter on document_id, using $in for multi-document queries.</p></div><div class="concept"><h4>Page-aware extraction</h4><p>PDFs are read page by page so each chunk carries a page number that can be cited.</p></div><div class="concept"><h4>Prompt construction</h4><p>Retrieved chunks are formatted as numbered sources with document and page, followed by the last few turns of conversation and the question.</p></div><div class="concept"><h4>Persistence and containers</h4><p>Uploads, a document index and the vector database live in a data directory that is mounted into the container so they survive restarts.</p></div></div>
+  </div></section>
+
+  <section class="section" id="decisions"><div class="container">
+    <div class="section-head"><div class="section-index"><strong>03</strong> / CHALLENGES &amp; DECISIONS</div>
+      <div><h2 class="display">Challenges and engineering decisions.</h2><p class="section-intro">Where the build pushed back, and what I decided to do about it.</p></div></div>
+    <div class="notes-list"><article class="note-row"><div class="note-label">Grounding</div><div><h3>Keeping answers inside the documents</h3><p class="note-q"><span>CHALLENGE</span>A language model will happily answer from its own knowledge.</p><p class="note-a"><span>DECISION</span>The prompt forbids outside knowledge and sets a fixed fallback sentence. The pipeline also short-circuits: if retrieval finds nothing, it replies without calling the model at all.</p></div></article><article class="note-row"><div class="note-label">Citations</div><div><h3>Showing where an answer came from</h3><p class="note-q"><span>CHALLENGE</span>An answer without a source is hard to trust or verify.</p><p class="note-a"><span>DECISION</span>Page and chunk numbers are stored as metadata at ingestion. Sources are de-duplicated by document, page and chunk, and each snippet is trimmed to a readable length.</p></div></article><article class="note-row"><div class="note-label">Multi-document</div><div><h3>Querying several documents without mixing in others</h3><p class="note-q"><span>CHALLENGE</span>Searching the whole library would pull in unrelated passages.</p><p class="note-a"><span>DECISION</span>Retrieval filters to the selected document IDs before ranking, then returns the top five chunks.</p></div></article><article class="note-row"><div class="note-label">Environment</div><div><h3>A containerized app talking to a host-side model</h3><p class="note-q"><span>CHALLENGE</span>Inside Docker, localhost no longer points at the machine running Ollama.</p><p class="note-a"><span>DECISION</span>The Compose file maps host.docker.internal to the host gateway and passes the Ollama address as an environment variable.</p></div></article><article class="note-row"><div class="note-label">Honest scoring</div><div><h3>Showing a relevance number without over-claiming</h3><p class="note-q"><span>CHALLENGE</span>Cosine distance is not a calibrated probability.</p><p class="note-a"><span>DECISION</span>The code labels the percentage as an approximate similarity derived from distance, and it is shown as a relevance hint, not as confidence.</p></div></article></div>
+  </div></section>
+
+  <section class="section" id="next"><div class="container">
+    <div class="section-head"><div class="section-index"><strong>04</strong> / POTENTIAL IMPROVEMENTS</div>
+      <div><h2 class="display">What I would improve next.</h2><p class="section-intro">Ideas grounded in what the current code and documentation say is missing.</p></div></div>
+    <div class="next-box">
+      <h3 class="display">From prototype<br>to something sturdier.</h3>
+      <ul><li>Support scanned PDFs. Extraction reads only the text layer, so image-only PDFs are rejected as having no readable text. OCR would fix that.</li><li>Embed chunks in batches. Ingestion currently makes one embedding request per chunk, which is slow for large documents.</li><li>Build a small evaluation set of questions with expected pages, so retrieval changes can be measured instead of judged by eye.</li><li>Add a relevance threshold or re-ranking step. Retrieval intentionally returns the top matches without rejecting weak ones.</li><li>Replace debug prints in the retrieval path with proper logging, and plan a hosted-inference option for public deployment.</li></ul>
+    </div>
+  </div></section>
+
+  <section class="closing"><div class="container">
+    <div class="closing-box">
+      <div>
+        <h2 class="display">The code is the artifact.<br>The learning is the leverage.</h2>
+        <p>Concise notes on RAGSphere, written to make the decisions behind it easy to discuss in a review, interview or collaboration.</p>
+      </div>
+      <div class="closing-actions">
+        <a class="btn btn-dark" href="https://github.com/jagadiswarambati/RAGSphere" target="_blank" rel="noopener noreferrer">GitHub repository <span class="btn-icon">↗</span></a>
+        <a class="btn btn-lime" href="../index.html#work">Back to portfolio <span class="btn-icon">↗</span></a>
+      </div>
+    </div>
+    <nav class="pager" aria-label="Other project learnings">
+      <a class="pager-link" href="esic-medstock.html" rel="prev"><span>← PREVIOUS</span><strong>ESIC MedStock</strong></a>
+      <a class="pager-link next" href="formfinance.html" rel="next"><span>NEXT →</span><strong>FormFinance</strong></a>
+    </nav>
+  </div></section>
+</main>
+<footer class="container footer"><a href="../index.html#top">JAGADISWAR.</a><span>LEARNINGS / RAGSPHERE</span><span>© 2026 · AJR</span></footer>
+</body>
+</html>

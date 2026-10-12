@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f5f4ef">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='9' fill='%23baff32' stroke='%23111' stroke-width='2'/%3E%3C/svg%3E">
+<meta name="description" content="An AI finance workflow for settlement verification, deduction reconciliation, evidence matching and auditable financial decisions. Project overview, status, what I learned, challenges and next steps by Ambati Jagadiswar Reddy.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="What I learned: FormFinance | JAGADISWAR.">
+<meta property="og:description" content="An AI finance workflow for settlement verification, deduction reconciliation, evidence matching and auditable financial decisions. Project overview, status, what I learned, challenges and next steps by Ambati Jagadiswar Reddy.">
+<title>What I learned: FormFinance | JAGADISWAR.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../assets/learning.css">
+</head>
+<body style="--accent:#46a367;--accent-ink:#10331c">
+<a class="skip-link" href="#content">Skip to content</a>
+<header class="site-header"><div class="container nav">
+  <a class="brand" href="../index.html#top" aria-label="JAGADISWAR home"><span class="brand-dot"></span>JAGADISWAR.</a>
+  <div class="nav-actions">
+    <a class="btn btn-light optional" href="../index.html#work">All projects <span class="btn-icon">↗</span></a>
+    <a class="btn btn-dark" href="../resume.pdf" download="Ambati-Jagadiswar-Reddy-Resume.pdf">Resume <span class="btn-icon">↓</span></a>
+  </div>
+</div></header>
+<main id="content">
+  <section class="hero"><div class="container">
+    <div class="crumb"><span class="crumb-dot"></span><span>JAGADISWAR / LEARNINGS / FORMFINANCE</span></div>
+    <div class="hero-grid">
+      <div>
+        <div class="project-overline">FINANCE / AUTOMATION</div>
+        <h1 class="display">What I learned<br>building <em>FormFinance.</em></h1>
+        <div class="hero-tags"><span class="status-pill"><i></i>Buildathon prototype</span><span class="tag">Python</span><span class="tag">FastAPI</span><span class="tag">AI/ML</span><span class="tag">OCR</span></div>
+      </div>
+      <div class="hero-copy">
+        <p>An AI finance workflow for settlement verification, deduction reconciliation, evidence matching and auditable financial decisions.</p>
+        <div class="hero-buttons">
+          <a class="btn btn-lime" href="https://github.com/jagadiswarambati/FormFinance" target="_blank" rel="noopener noreferrer">View repository on GitHub <span class="btn-icon">↗</span></a>
+          <a class="btn btn-light" href="../index.html#work">Back to portfolio <span class="btn-icon">↗</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="hero-stamp"><span>LEARNINGS / FORMFINANCE</span><span>BUILDATHON PROTOTYPE</span><span>AMBATI JAGADISWAR REDDY</span></div>
+  </div></section>
+
+  <section class="section" id="overview"><div class="container">
+    <div class="section-head"><div class="section-index"><strong>01</strong> / OVERVIEW &amp; STATUS</div>
+      <div><h2 class="display">What it is, and where it stands.</h2></div></div>
+    <div class="overview">
+      <div class="overview-text"><p>FormFinance was built for the Razorpay AI Buildathon 2026 (Track 04, AI Finance Controller). It takes a settlement PDF, extracts the amounts with OCR, runs rule-based checks, matches deductions to supporting evidence, sends unclear cases to an AI agent, and records an approve, flag or escalate decision with an audit trail.</p><p>The settlement pipeline lives inside a larger monorepo called FormWise, which already provided document upload, OCR and an AI-provider layer. The pipeline is a prototype working on synthetic data.</p></div>
+      <dl class="facts"><div class="fact-row"><dt>Status</dt><dd>Buildathon prototype</dd></div><div class="fact-row"><dt>Event</dt><dd>Razorpay AI Buildathon 2026, Track 04</dd></div><div class="fact-row"><dt>Data</dt><dd>Synthetic demo settlements; no live Razorpay integration (stated in the README)</dd></div><div class="fact-row"><dt>Backend</dt><dd>Python, FastAPI, with a separate OCR worker using PaddleOCR</dd></div><div class="fact-row"><dt>Frontend</dt><dd>Next.js 15, React 19, TypeScript</dd></div><div class="fact-row"><dt>AI layer</dt><dd>Pluggable provider interface with Ollama and mock implementations</dd></div></dl>
+    </div>
+    <aside class="honest" aria-label="Scope and limits"><div class="honest-label">SCOPE &amp; LIMITS</div><ul><li>No live Razorpay integration: the demo uses generated settlement data.</li><li>The verification rules are hard-coded, not learned.</li><li>The AI agent is optional, and the pipeline can run with a mock provider.</li><li>The README includes benchmark figures from a synthetic dataset. They are not quoted here because they do not describe real-world accuracy.</li></ul></aside>
+  </div></section>
+
+  <section class="section" id="learned"><div class="container">
+    <div class="section-head"><div class="section-index"><strong>02</strong> / WHAT I LEARNED</div>
+      <div><h2 class="display">Lessons from the build.</h2><p class="section-intro">The main design question was how much to trust an AI model with money. The answer in this build is: as little as possible, and always on the record.</p></div></div>
+    <div class="lesson-grid"><article class="lesson-card"><div class="lesson-number">LESSON / 01</div><h3>Deterministic first, AI second</h3><p>The verifier is plain code with no LLM: settlement arithmetic (gross minus deductions equals net, within a 1% tolerance), positive amounts, net not above gross, each deduction not above gross, and extraction confidence of at least 0.5.</p></article><article class="lesson-card"><div class="lesson-number">LESSON / 02</div><h3>Three outcomes beat pass or fail</h3><p>Each deduction ends up verified, disputed or unverifiable, and a settlement ends up approved, flagged or escalated. “Unverifiable” is a different problem from “wrong”.</p></article><article class="lesson-card"><div class="lesson-number">LESSON / 03</div><h3>Auditability is a feature</h3><p>Extraction, verification, agent investigation and the final decision are each written as finance audit events, so a decision can be traced back to the checks behind it.</p></article><article class="lesson-card"><div class="lesson-number">LESSON / 04</div><h3>Evidence changes the answer</h3><p>Deductions are compared against evidence extracted from supporting documents (amounts, dates and normalized references), so a deduction can be confirmed by something other than itself.</p></article></div>
+    <div class="concepts-head"><span>TECHNICAL CONCEPTS</span></div>
+    <div class="concept-grid"><div class="concept"><h4>OCR to structured data</h4><p>PaddleOCR text is parsed into settlement and deduction models with a confidence score for each extracted deduction.</p></div><div class="concept"><h4>Tolerance-based comparison</h4><p>Amounts are compared with a small percentage tolerance rather than exact floating-point equality.</p></div><div class="concept"><h4>Confidence thresholds</h4><p>Low-confidence extractions are marked unverifiable instead of being guessed at.</p></div><div class="concept"><h4>Agent routing</h4><p>Only deductions the rules cannot settle are passed to the finance agent, which returns a structured result.</p></div><div class="concept"><h4>Provider abstraction</h4><p>The agent depends on an AI provider interface, which makes it possible to swap a local model for a mock in tests.</p></div><div class="concept"><h4>Service and worker split</h4><p>The API handles requests while OCR runs in a separate worker service.</p></div></div>
+  </div></section>
+
+  <section class="section" id="decisions"><div class="container">
+    <div class="section-head"><div class="section-index"><strong>03</strong> / CHALLENGES &amp; DECISIONS</div>
+      <div><h2 class="display">Challenges and engineering decisions.</h2><p class="section-intro">Where the build pushed back, and what I decided to do about it.</p></div></div>
+    <div class="notes-list"><article class="note-row"><div class="note-label">Messy input</div><div><h3>OCR output is not always reliable</h3><p class="note-q"><span>CHALLENGE</span>A misread amount could produce a confident but wrong verification.</p><p class="note-a"><span>DECISION</span>Every extracted deduction carries a confidence value, and anything under the threshold is marked unverifiable and escalated to the agent or a human.</p></div></article><article class="note-row"><div class="note-label">AI boundaries</div><div><h3>Deciding what the agent should touch</h3><p class="note-q"><span>CHALLENGE</span>Sending everything to an LLM is slow, costly and hard to audit.</p><p class="note-a"><span>DECISION</span>Rules run first and settle the clear cases. The agent only investigates ambiguous deductions, and its investigations are logged as audit events.</p></div></article><article class="note-row"><div class="note-label">Testing</div><div><h3>No real financial data to test with</h3><p class="note-q"><span>CHALLENGE</span>Real settlement reports are sensitive and were not part of this prototype.</p><p class="note-a"><span>DECISION</span>The tests use generated PDF fixtures covering a valid settlement, a deduction mismatch, missing evidence, an escalation case and chargeback evidence that matches or does not.</p></div></article><article class="note-row"><div class="note-label">Architecture</div><div><h3>Adding finance logic to an existing platform</h3><p class="note-q"><span>CHALLENGE</span>The settlement work had to fit the FormWise monorepo rather than start from nothing.</p><p class="note-a"><span>DECISION</span>It was added as separate modules (settlements, evidence, verification, audit) that reuse the platform’s document, OCR and AI-provider layers.</p></div></article></div>
+  </div></section>
+
+  <section class="section" id="next"><div class="container">
+    <div class="section-head"><div class="section-index"><strong>04</strong> / POTENTIAL IMPROVEMENTS</div>
+      <div><h2 class="display">What I would improve next.</h2><p class="section-intro">Ideas grounded in what the current code and documentation say is missing.</p></div></div>
+    <div class="next-box">
+      <h3 class="display">From prototype<br>to something sturdier.</h3>
+      <ul><li>Test against realistic, labelled settlements, not only synthetic ones, before drawing conclusions about accuracy.</li><li>Add policy-aware rules, such as fee ranges and tax rates, on top of the current arithmetic and consistency checks.</li><li>Move persistence from the local demo storage to Firestore, as the README roadmap describes.</li><li>Add role-based access, multi-tenant separation, and a multi-level approval workflow.</li><li>Connect to a real settlement data source and make the verification rules configurable instead of hard-coded.</li></ul>
+    </div>
+  </div></section>
+
+  <section class="closing"><div class="container">
+    <div class="closing-box">
+      <div>
+        <h2 class="display">The code is the artifact.<br>The learning is the leverage.</h2>
+        <p>Concise notes on FormFinance, written to make the decisions behind it easy to discuss in a review, interview or collaboration.</p>
+      </div>
+      <div class="closing-actions">
+        <a class="btn btn-dark" href="https://github.com/jagadiswarambati/FormFinance" target="_blank" rel="noopener noreferrer">GitHub repository <span class="btn-icon">↗</span></a>
+        <a class="btn btn-lime" href="../index.html#work">Back to portfolio <span class="btn-icon">↗</span></a>
+      </div>
+    </div>
+    <nav class="pager" aria-label="Other project learnings">
+      <a class="pager-link" href="ragsphere.html" rel="prev"><span>← PREVIOUS</span><strong>RAGSphere</strong></a>
+      <a class="pager-link next" href="pakkakhata.html" rel="next"><span>NEXT →</span><strong>PakkaKhata</strong></a>
+    </nav>
+  </div></section>
+</main>
+<footer class="container footer"><a href="../index.html#top">JAGADISWAR.</a><span>LEARNINGS / FORMFINANCE</span><span>© 2026 · AJR</span></footer>
+</body>
+</html>

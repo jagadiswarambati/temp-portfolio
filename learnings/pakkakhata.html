@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f5f4ef">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='9' fill='%23baff32' stroke='%23111' stroke-width='2'/%3E%3C/svg%3E">
+<meta name="description" content="A phone-first, offline-first ledger concept for small shopkeepers, connecting voice credit, payment evidence, OCR and intelligent reconciliation. Project overview, status, what I learned, challenges and next steps by Ambati Jagadiswar Reddy.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="What I learned: PakkaKhata | JAGADISWAR.">
+<meta property="og:description" content="A phone-first, offline-first ledger concept for small shopkeepers, connecting voice credit, payment evidence, OCR and intelligent reconciliation. Project overview, status, what I learned, challenges and next steps by Ambati Jagadiswar Reddy.">
+<title>What I learned: PakkaKhata | JAGADISWAR.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../assets/learning.css">
+</head>
+<body style="--accent:#e9b46a;--accent-ink:#4a3210">
+<a class="skip-link" href="#content">Skip to content</a>
+<header class="site-header"><div class="container nav">
+  <a class="brand" href="../index.html#top" aria-label="JAGADISWAR home"><span class="brand-dot"></span>JAGADISWAR.</a>
+  <div class="nav-actions">
+    <a class="btn btn-light optional" href="../index.html#work">All projects <span class="btn-icon">↗</span></a>
+    <a class="btn btn-dark" href="../resume.pdf" download="Ambati-Jagadiswar-Reddy-Resume.pdf">Resume <span class="btn-icon">↓</span></a>
+  </div>
+</div></header>
+<main id="content">
+  <section class="hero"><div class="container">
+    <div class="crumb"><span class="crumb-dot"></span><span>JAGADISWAR / LEARNINGS / PAKKAKHATA</span></div>
+    <div class="hero-grid">
+      <div>
+        <div class="project-overline">MOBILE / COMMERCE</div>
+        <h1 class="display">What I learned<br>building <em>PakkaKhata.</em></h1>
+        <div class="hero-tags"><span class="status-pill"><i></i>Hackathon prototype</span><span class="tag">Kotlin</span><span class="tag">Jetpack Compose</span><span class="tag">Room</span><span class="tag">ML Kit</span></div>
+      </div>
+      <div class="hero-copy">
+        <p>A phone-first, offline-first ledger concept for small shopkeepers, connecting voice credit, payment evidence, OCR and intelligent reconciliation.</p>
+        <div class="hero-buttons">
+          <a class="btn btn-lime" href="https://github.com/jagadiswarambati/PakkaKhata_gais" target="_blank" rel="noopener noreferrer">View repository on GitHub <span class="btn-icon">↗</span></a>
+          <a class="btn btn-light" href="../index.html#work">Back to portfolio <span class="btn-icon">↗</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="hero-stamp"><span>LEARNINGS / PAKKAKHATA</span><span>HACKATHON PROTOTYPE</span><span>AMBATI JAGADISWAR REDDY</span></div>
+  </div></section>
+
+  <section class="section" id="overview"><div class="container">
+    <div class="section-head"><div class="section-index"><strong>01</strong> / OVERVIEW &amp; STATUS</div>
+      <div><h2 class="display">What it is, and where it stands.</h2></div></div>
+    <div class="overview">
+      <div class="overview-text"><p>PakkaKhata is an Android app for shopkeepers who sell on credit (udhaar). A credit can be entered by voice or by hand. When the customer pays later, the shopkeeper photographs the UPI payment, on-device OCR reads it, and a local reconciliation engine decides which open credit it belongs to.</p><p>The outcome is shown as fully settled, partially settled, overpaid or no match. The core workflow needs no backend and no external AI API at runtime. It was built for the iQOO Hackathon 2026 (Hyderabad City Battle).</p></div>
+      <dl class="facts"><div class="fact-row"><dt>Status</dt><dd>Hackathon prototype with the core workflow built</dd></div><div class="fact-row"><dt>Platform</dt><dd>Android, minSdk 24, targetSdk 36</dd></div><div class="fact-row"><dt>UI</dt><dd>Kotlin and Jetpack Compose (Material 3), Navigation Compose</dd></div><div class="fact-row"><dt>Storage</dt><dd>Room database, fully on-device</dd></div><div class="fact-row"><dt>Perception</dt><dd>CameraX, ML Kit text recognition (bundled model), Android SpeechRecognizer</dd></div><div class="fact-row"><dt>Tests in repo</dt><dd>Unit tests for the parsers, reconciliation engine and database integration</dd></div></dl>
+    </div>
+    <aside class="honest" aria-label="Scope and limits"><div class="honest-label">SCOPE &amp; LIMITS</div><ul><li>The reconciliation engine is a hand-written scoring and rules engine, not a trained model.</li><li>Data is local to one device. There is no cloud sync.</li><li>The “Office Bridge” export uses the standard Android clipboard and share sheet, not a vendor SDK.</li></ul></aside>
+  </div></section>
+
+  <section class="section" id="learned"><div class="container">
+    <div class="section-head"><div class="section-index"><strong>02</strong> / WHAT I LEARNED</div>
+      <div><h2 class="display">Lessons from the build.</h2><p class="section-intro">This project taught me that a finance feature has to be predictable and explainable first, and clever second.</p></div></div>
+    <div class="lesson-grid"><article class="lesson-card"><div class="lesson-number">LESSON / 01</div><h3>Money is an integer</h3><p>Amounts are stored as a Money value class holding integer paise, so balances and settlements never suffer floating-point rounding.</p></article><article class="lesson-card"><div class="lesson-number">LESSON / 02</div><h3>Explainable beats clever</h3><p>Matching is a hand-written weighted score (name similarity 0.65, amount fit 0.30, timing 0.05) with an identity guardrail, so a payment cannot be strongly matched on amount alone. The review screen shows the reasons behind a match.</p></article><article class="lesson-card"><div class="lesson-number">LESSON / 03</div><h3>Safe by default</h3><p>Ambiguous evidence should never silently settle against the wrong customer. Matches are tiered into auto match, suggested match and no match, with a confirmation step before the ledger changes.</p></article><article class="lesson-card"><div class="lesson-number">LESSON / 04</div><h3>Writes must be atomic</h3><p>Settling a payment updates the evidence, the obligation’s remaining amount and status, the reconciliation record and the customer’s balance inside one Room transaction, so a failure cannot leave the ledger half-updated.</p></article></div>
+    <div class="concepts-head"><span>TECHNICAL CONCEPTS</span></div>
+    <div class="concept-grid"><div class="concept"><h4>Offline-first architecture</h4><p>Room is the source of truth and the core flow has no network dependency.</p></div><div class="concept"><h4>On-device OCR and parsing</h4><p>ML Kit reads the screenshot, then a parser extracts amount, payer, UPI ID, UTR, date and payment app, tolerating OCR noise.</p></div><div class="concept"><h4>Fuzzy name matching</h4><p>Name normalization and fuzzy matching bridge the gap between the name on the credit and the payer name on the payment.</p></div><div class="concept"><h4>Duplicate detection</h4><p>Payment evidence is checked for duplicates before reconciliation, to reduce the risk of the same payment being applied twice.</p></div><div class="concept"><h4>Provider abstractions</h4><p>SpeechProvider and OCRProvider interfaces keep platform APIs out of the core business logic.</p></div><div class="concept"><h4>Layered structure</h4><p>Code is separated into data, domain and presentation, with ViewModels driving Compose screens.</p></div></div>
+  </div></section>
+
+  <section class="section" id="decisions"><div class="container">
+    <div class="section-head"><div class="section-index"><strong>03</strong> / CHALLENGES &amp; DECISIONS</div>
+      <div><h2 class="display">Challenges and engineering decisions.</h2><p class="section-intro">Where the build pushed back, and what I decided to do about it.</p></div></div>
+    <div class="notes-list"><article class="note-row"><div class="note-label">Identity</div><div><h3>The same person appears under different names</h3><p class="note-q"><span>CHALLENGE</span>A credit may say “Ramesh” while the UPI payer name is something else.</p><p class="note-a"><span>DECISION</span>Normalize and fuzzy-match names, weight identity most heavily, and use a guardrail so a good amount match cannot rescue a weak identity match.</p></div></article><article class="note-row"><div class="note-label">Settlement</div><div><h3>Partial payments and overpayments</h3><p class="note-q"><span>CHALLENGE</span>Real payments rarely equal the credit exactly.</p><p class="note-a"><span>DECISION</span>A settlement calculator produces fully settled, partially settled or overpaid results and updates the remaining balance.</p></div></article><article class="note-row"><div class="note-label">Input quality</div><div><h3>Noisy OCR from payment screenshots</h3><p class="note-q"><span>CHALLENGE</span>Layouts differ between UPI apps and OCR text can be messy.</p><p class="note-a"><span>DECISION</span>The parser is built around common Indian payment formats, and a review step lets the shopkeeper confirm before anything is saved.</p></div></article><article class="note-row"><div class="note-label">Voice</div><div><h3>Speech recognition is not reliably offline</h3><p class="note-q"><span>CHALLENGE</span>Android’s recognizer prefers offline mode, but availability depends on the device and installed language packs.</p><p class="note-a"><span>DECISION</span>Manual entry is always available as a fallback, and the limitation is stated openly in the README.</p></div></article></div>
+  </div></section>
+
+  <section class="section" id="next"><div class="container">
+    <div class="section-head"><div class="section-index"><strong>04</strong> / POTENTIAL IMPROVEMENTS</div>
+      <div><h2 class="display">What I would improve next.</h2><p class="section-intro">Ideas grounded in what the current code and documentation say is missing.</p></div></div>
+    <div class="next-box">
+      <h3 class="display">From prototype<br>to something sturdier.</h3>
+      <ul><li>Allow one payment to be split across several outstanding credits. Today one piece of evidence resolves to one obligation.</li><li>Improve multilingual voice input, including Telugu, Hindi and mixed-language speech.</li><li>Add encrypted backup and restore, and secure device-to-device sync that keeps the local-first model.</li><li>Support more UPI apps, bank formats and layouts in the payment parser.</li><li>Strengthen duplicate detection when no explicit reference exists, keeping the deterministic engine as a safety layer around any future model.</li></ul>
+    </div>
+  </div></section>
+
+  <section class="closing"><div class="container">
+    <div class="closing-box">
+      <div>
+        <h2 class="display">The code is the artifact.<br>The learning is the leverage.</h2>
+        <p>Concise notes on PakkaKhata, written to make the decisions behind it easy to discuss in a review, interview or collaboration.</p>
+      </div>
+      <div class="closing-actions">
+        <a class="btn btn-dark" href="https://github.com/jagadiswarambati/PakkaKhata_gais" target="_blank" rel="noopener noreferrer">GitHub repository <span class="btn-icon">↗</span></a>
+        <a class="btn btn-lime" href="../index.html#work">Back to portfolio <span class="btn-icon">↗</span></a>
+      </div>
+    </div>
+    <nav class="pager" aria-label="Other project learnings">
+      <a class="pager-link" href="formfinance.html" rel="prev"><span>← PREVIOUS</span><strong>FormFinance</strong></a>
+      <a class="pager-link next" href="bis-smart-assist.html" rel="next"><span>NEXT →</span><strong>BIS Smart Assist</strong></a>
+    </nav>
+  </div></section>
+</main>
+<footer class="container footer"><a href="../index.html#top">JAGADISWAR.</a><span>LEARNINGS / PAKKAKHATA</span><span>© 2026 · AJR</span></footer>
+</body>
+</html>
