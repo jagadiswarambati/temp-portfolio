@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="theme-color" content="#f5f4ef" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='9' fill='%23baff32' stroke='%23111' stroke-width='2'/%3E%3C/svg%3E">
 <meta name="description" content="Ambati Jagadiswar Reddy — AI/ML + Full-Stack developer building practical software, AI systems and products." />
 <title>JAGADISWAR. — Ambati Jagadiswar Reddy</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -145,9 +146,10 @@ img{max-width:100%;display:block}
 .btn-small{min-height:38px;padding:0 13px;border-radius:11px;font-size:11px}
 .btn-icon{font-size:15px;transition:transform .22s var(--ease)}
 .btn:hover .btn-icon{transform:translateX(3px)}
+#work{padding-bottom:72px}
 
 /* ---------- HERO ---------- */
-.hero{padding:88px 0 72px;position:relative}
+.hero{padding:88px 0 72px;position:relative;overflow-x:clip}
 .hero::before{
   content:"";position:absolute;inset:10% auto auto 58%;width:420px;height:420px;
   background:radial-gradient(circle at center,rgba(186,255,50,.15),transparent 65%);pointer-events:none;
@@ -204,7 +206,7 @@ img{max-width:100%;display:block}
 .project:hover{transform:translateY(-5px);box-shadow:var(--shadow);border-color:#c4c4bc}
 .project-thumb{position:relative;min-height:220px;aspect-ratio:16/10;border-radius:18px;overflow:hidden;border:1px solid rgba(17,17,17,.08);background:#ecece6}
 .project-thumb svg{width:100%;height:100%;display:block;min-width:0}
-.project-thumb-label{position:absolute;left:12px;top:12px;display:inline-flex;align-items:center;min-height:24px;padding:0 9px;border-radius:999px;background:rgba(255,255,255,.86);border:1px solid rgba(17,17,17,.1);font:500 9px 'DM Mono',monospace;letter-spacing:.06em;color:#4c4c46}
+.project-thumb-label{position:absolute;z-index:2;left:12px;top:12px;display:inline-flex;align-items:center;min-height:24px;padding:0 9px;border-radius:999px;background:rgba(255,255,255,.86);border:1px solid rgba(17,17,17,.1);font:500 9px 'DM Mono',monospace;letter-spacing:.06em;color:#4c4c46}
 .project-body{display:flex;flex-direction:column;justify-content:center;min-width:0;padding:4px 4px 4px 0}
 .project-status{display:flex;align-items:center;gap:8px;font:500 9px 'DM Mono',monospace;color:#74746d;letter-spacing:.07em;margin-bottom:10px}
 .project-status::before{content:"";width:6px;height:6px;border-radius:50%;background:#8dcc22;flex:none}
@@ -218,7 +220,49 @@ img{max-width:100%;display:block}
 .project-desc{margin-top:18px;max-width:730px;color:#65655f;font-size:13px;line-height:1.78}
 .project-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:17px}
 .project-tag{display:inline-flex;align-items:center;min-height:25px;padding:0 8px;border-radius:8px;background:#f5f5f0;border:1px solid var(--line);font:500 9px 'DM Mono',monospace;color:#5e5e58}
-.project-actions{display:flex;align-items:flex-end;justify-content:flex-end;padding:4px 0;min-width:106px}
+.project-actions{display:flex;flex-direction:column;align-items:stretch;justify-content:center;gap:8px;padding:4px 0;min-width:162px}
+.project-actions .btn{width:100%;}
+.btn-learn{position:relative;isolation:isolate;overflow:hidden;justify-content:space-between;min-height:44px;padding:0 14px 0 15px;border-color:#a8db31;background:linear-gradient(135deg,#c9ff68 0%,#baff32 55%,#e5ffad 100%);color:var(--ink);font-size:11px;letter-spacing:-.005em;box-shadow:0 3px 0 rgba(89,125,21,.10)}
+.btn-learn::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(110deg,transparent 20%,rgba(255,255,255,.72) 45%,transparent 70%);transform:translateX(-130%);transition:transform .6s var(--ease)}
+.btn-learn:hover::before,.btn-learn:focus-visible::before{transform:translateX(130%)}
+.btn-learn:hover{box-shadow:0 12px 25px rgba(145,191,44,.28);border-color:#8bbd21}
+.btn-learn .btn-icon{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:7px;background:var(--ink);color:var(--lime);font-size:12px;line-height:1;transition:transform .25s var(--ease)}
+.btn-learn:hover .btn-icon,.btn-learn:focus-visible .btn-icon{transform:translate(2px,-2px) rotate(0deg)}
+
+
+
+/* ---------- PINNED HORIZONTAL PROJECTS (progressive enhancement; JS adds .hscroll-on) ---------- */
+.hscroll{position:relative}
+.hscroll-ui{display:none}
+.hscroll-on{--hh:76px;--card-w:min(1020px,calc(100vw - 2*clamp(56px,7vw,140px)));--hgap:clamp(28px,3.4vw,56px)}
+.hscroll-on .hscroll-stage{position:sticky;top:var(--hh);height:calc(100vh - var(--hh));height:calc(100svh - var(--hh));display:flex;flex-direction:column;overflow:hidden;overflow:clip;z-index:1}
+.hscroll-on .hscroll-ui{display:flex;align-items:center;gap:22px;width:min(calc(100% - var(--gutter) - var(--gutter)),var(--max));margin:0 auto;padding:6px 0 0;flex:none}
+.hs-count{font:500 11px 'DM Mono',monospace;color:var(--ink);letter-spacing:.06em;min-width:64px}
+.hs-count span{color:#8a8a83}
+.hs-ticks{display:flex;flex:1;gap:8px;min-width:0}
+.hs-tick{flex:1;min-width:0;border:0;background:none;padding:9px 0 0;text-align:left;cursor:inherit;position:relative;font:500 9px 'DM Mono',monospace;letter-spacing:.05em;color:#8a8a83;transition:color .3s var(--ease);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hs-tick::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;border-radius:2px;background:var(--line)}
+.hs-tick::after{content:"";position:absolute;left:0;top:0;height:2px;border-radius:2px;background:var(--ink);width:calc(var(--fill,0)*100%)}
+.hs-tick.is-active{color:var(--ink)}
+.hs-tick:focus-visible{outline:3px solid var(--violet);outline-offset:3px;border-radius:6px}
+.hs-hint{font:500 9px 'DM Mono',monospace;letter-spacing:.08em;color:#8a8a83;white-space:nowrap;transition:opacity .4s var(--ease)}
+.hscroll-on .hscroll-viewport{flex:1;min-height:0;display:flex;align-items:center;overflow:hidden;overflow:clip}
+.hscroll-on .project-list{display:flex;gap:var(--hgap);width:max-content;max-width:none;margin:0;padding:0 calc((100vw - var(--card-w))/2);align-items:center;will-change:transform;backface-visibility:hidden}
+.hscroll-on .project{flex:0 0 var(--card-w);width:var(--card-w);max-height:calc(100% - 8px);grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);grid-template-areas:"thumb body" "thumb actions";column-gap:clamp(24px,3vw,40px);row-gap:6px;align-items:center;padding:clamp(18px,1.9vw,26px);border-radius:28px;
+  opacity:var(--o,1);transform:scale(var(--s,1));transform-origin:center;transition:box-shadow .3s var(--ease),border-color .3s var(--ease)}
+.hscroll-on .project.reveal{opacity:var(--o,1);transform:scale(var(--s,1))}
+.hscroll-on .project:hover{transform:scale(var(--s,1));box-shadow:var(--shadow)}
+.hscroll-on .project.is-active{border-color:#c4c4bc;box-shadow:var(--shadow)}
+.hscroll-on .project-thumb{grid-area:thumb;min-height:0;aspect-ratio:16/10;height:auto;align-self:center;border-radius:20px}
+.hscroll-on .project-thumb svg{transform:translate3d(var(--px,0px),0,0) scale(1.1);transform-origin:center;will-change:transform}
+.hscroll-on .project-body{grid-area:body;padding:0}
+.hscroll-on .project-actions{grid-area:actions;flex-direction:row;flex-wrap:wrap;justify-content:flex-start;align-items:stretch;gap:10px;padding:14px 0 0;min-width:0;max-width:none}
+.hscroll-on .project-actions .btn{width:auto;min-width:176px;flex:0 1 auto}
+.hscroll-on .project-name{font-size:clamp(32px,3.3vw,44px)}
+.hscroll-on .project-desc{font-size:clamp(13px,1.05vw,14.5px);line-height:1.75;max-width:none}
+.hscroll-on .project-kicker{font-size:11px}
+.hscroll-on .project-tag{font-size:10px;min-height:27px;padding:0 10px}
+@media(prefers-reduced-motion:reduce){.hscroll-on .project{transition:none}}
 
 /* ---------- FEATURED CURRENT BUILD ---------- */
 .featured{
@@ -317,7 +361,7 @@ footer{border-top:1px solid var(--line);padding:29px 0 38px}
   .footer-center{order:3;grid-column:1/-1;text-align:left}
   .footer-links{justify-content:flex-start}
   .project{grid-template-columns:minmax(220px,.9fr) minmax(0,1.1fr)}
-  .project-actions{grid-column:2;grid-row:2;justify-content:flex-start;align-items:flex-start;padding:0 4px 2px 0}
+  .project-actions{grid-column:2;grid-row:2;justify-content:flex-start;align-items:stretch;padding:0 4px 2px 0;max-width:300px}
 }
 
 @media(max-width:900px){
@@ -333,7 +377,7 @@ footer{border-top:1px solid var(--line);padding:29px 0 38px}
   .section{padding:88px 0}
   .section-title{font-size:clamp(42px,7.8vw,64px)}
   .project{grid-template-columns:1fr;gap:18px;padding:18px}
-  .project-actions{grid-column:auto;grid-row:auto;padding:0;justify-content:flex-start}
+  .project-actions{grid-column:auto;grid-row:auto;padding:0;justify-content:flex-start;max-width:340px;width:100%}
   .project-thumb{aspect-ratio:16/9;min-height:0}
   .project-body{padding:0}
   .featured{padding:31px}
@@ -378,7 +422,9 @@ footer{border-top:1px solid var(--line);padding:29px 0 38px}
   .project-name{font-size:clamp(25px,7vw,31px)}
   .project-desc{font-size:12px;line-height:1.72;margin-top:14px}
   .project-tags{margin-top:14px}
-  .project-actions .btn{width:100%}
+  .project-actions{max-width:none;gap:8px}
+  .project-actions .btn{width:100%;}
+  .btn-learn{min-height:46px}
   .featured{padding:26px;border-radius:24px}
   .featured h3{font-size:clamp(42px,12vw,64px)}
   .featured p{font-size:12px}
@@ -424,6 +470,7 @@ footer{border-top:1px solid var(--line);padding:29px 0 38px}
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   .reveal,.btn,.project,.stack-card,.nav-link,.nav-cta,.footer-link{transition:none}
+  .btn-learn::before{display:none}
 }
 </style>
 <!-- AJR responsive professional portfolio — v3 -->
@@ -535,13 +582,28 @@ footer{border-top:1px solid var(--line);padding:29px 0 38px}
           <p class="section-intro">Healthcare, retrieval, finance, commerce and standards — five builds, each solving a different kind of problem.</p>
         </div>
       </div>
+    </div>
 
-      <div class="project-list">
+    <div class="hscroll" data-hscroll>
+      <div class="hscroll-stage">
+        <div class="hscroll-ui" aria-label="Project progress">
+          <div class="hs-count" aria-live="off"><b data-hs-current>01</b> <span>/ 05</span></div>
+          <div class="hs-ticks">
+            <button type="button" class="hs-tick" data-hs-tick="0">ESIC MEDSTOCK</button>
+            <button type="button" class="hs-tick" data-hs-tick="1">RAGSPHERE</button>
+            <button type="button" class="hs-tick" data-hs-tick="2">FORMFINANCE</button>
+            <button type="button" class="hs-tick" data-hs-tick="3">PAKKAKHATA</button>
+            <button type="button" class="hs-tick" data-hs-tick="4">BIS SMART ASSIST</button>
+          </div>
+          <div class="hs-hint" data-hs-hint>SCROLL ↓</div>
+        </div>
+        <div class="hscroll-viewport">
+      <div class="project-list container" data-hscroll-track>
         <!-- ESIC -->
         <article class="project reveal">
           <div class="project-thumb" aria-hidden="true">
             <span class="project-thumb-label">HEALTHCARE / INVENTORY</span>
-            <svg viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg" role="img">
+            <svg viewBox="0 0 640 400" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" role="img">
               <defs>
                 <linearGradient id="esicBg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f1f5ec"/><stop offset="1" stop-color="#dce7d0"/></linearGradient>
                 <filter id="esicShadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="18" stdDeviation="18" flood-opacity=".12"/></filter>
@@ -581,14 +643,14 @@ footer{border-top:1px solid var(--line);padding:29px 0 38px}
             <p class="project-desc">A pharmacy-assistance system designed to help ESIC patients check medicine availability and reduce unnecessary waiting through a kiosk-first flow.</p>
             <div class="project-tags"><span class="project-tag">Next.js</span><span class="project-tag">TypeScript</span><span class="project-tag">Firebase</span><span class="project-tag">Firestore</span></div>
           </div>
-          <div class="project-actions"><a class="btn btn-dark btn-small" href="https://github.com/jagadiswarambati/esic-smart-pharmacy-kiosk" target="_blank" rel="noopener noreferrer">View repo <span class="btn-icon">↗</span></a></div>
+          <div class="project-actions"><a class="btn btn-lime btn-small btn-learn" href="learnings/esic-medstock.html" aria-label="See what I learned building ESIC MedStock"><span>See what I learned</span><span class="btn-icon" aria-hidden="true">↗</span></a><a class="btn btn-dark btn-small" href="https://github.com/jagadiswarambati/esic-smart-pharmacy-kiosk" target="_blank" rel="noopener noreferrer">View repo <span class="btn-icon">↗</span></a></div>
         </article>
 
         <!-- RAGSphere -->
         <article class="project reveal">
           <div class="project-thumb" aria-hidden="true">
             <span class="project-thumb-label">AI / RETRIEVAL</span>
-            <svg viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg" role="img">
+            <svg viewBox="0 0 640 400" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" role="img">
               <defs>
                 <radialGradient id="ragBg" cx="52%" cy="42%" r="70%"><stop offset="0" stop-color="#ece8ff"/><stop offset="1" stop-color="#dcd6ff"/></radialGradient>
                 <linearGradient id="ragOrb" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#a992ff"/></linearGradient>
@@ -624,14 +686,14 @@ footer{border-top:1px solid var(--line);padding:29px 0 38px}
             <p class="project-desc">An AI-focused build exploring retrieval-augmented generation, contextual search and grounded responses instead of relying on generation alone.</p>
             <div class="project-tags"><span class="project-tag">RAG</span><span class="project-tag">LLMs</span><span class="project-tag">Embeddings</span><span class="project-tag">Python</span></div>
           </div>
-          <div class="project-actions"><a class="btn btn-dark btn-small" href="https://github.com/jagadiswarambati/RAGSphere" target="_blank" rel="noopener noreferrer">View repo <span class="btn-icon">↗</span></a></div>
+          <div class="project-actions"><a class="btn btn-lime btn-small btn-learn" href="learnings/ragsphere.html" aria-label="See what I learned building RAGSphere"><span>See what I learned</span><span class="btn-icon" aria-hidden="true">↗</span></a><a class="btn btn-dark btn-small" href="https://github.com/jagadiswarambati/RAGSphere" target="_blank" rel="noopener noreferrer">View repo <span class="btn-icon">↗</span></a></div>
         </article>
 
         <!-- FormFinance -->
         <article class="project reveal">
           <div class="project-thumb" aria-hidden="true">
             <span class="project-thumb-label">FINANCE / AUTOMATION</span>
-            <svg viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg" role="img">
+            <svg viewBox="0 0 640 400" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" role="img">
               <defs>
                 <linearGradient id="finBg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f1f5f2"/><stop offset="1" stop-color="#d9e9e0"/></linearGradient>
                 <filter id="finShadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="16" stdDeviation="18" flood-opacity=".12"/></filter>
@@ -663,14 +725,14 @@ footer{border-top:1px solid var(--line);padding:29px 0 38px}
             <p class="project-desc">An AI finance workflow for settlement verification, deduction reconciliation, evidence matching and auditable financial decisions.</p>
             <div class="project-tags"><span class="project-tag">Python</span><span class="project-tag">FastAPI</span><span class="project-tag">AI/ML</span><span class="project-tag">OCR</span></div>
           </div>
-          <div class="project-actions"><a class="btn btn-dark btn-small" href="https://github.com/jagadiswarambati/FormFinance" target="_blank" rel="noopener noreferrer">View repo <span class="btn-icon">↗</span></a></div>
+          <div class="project-actions"><a class="btn btn-lime btn-small btn-learn" href="learnings/formfinance.html" aria-label="See what I learned building FormFinance"><span>See what I learned</span><span class="btn-icon" aria-hidden="true">↗</span></a><a class="btn btn-dark btn-small" href="https://github.com/jagadiswarambati/FormFinance" target="_blank" rel="noopener noreferrer">View repo <span class="btn-icon">↗</span></a></div>
         </article>
 
         <!-- PakkaKhata -->
         <article class="project reveal">
           <div class="project-thumb" aria-hidden="true">
             <span class="project-thumb-label">MOBILE / COMMERCE</span>
-            <svg viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg" role="img">
+            <svg viewBox="0 0 640 400" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" role="img">
               <defs>
                 <linearGradient id="khataBg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f7efe2"/><stop offset="1" stop-color="#ecdcc6"/></linearGradient>
                 <filter id="phoneShadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="20" stdDeviation="20" flood-opacity=".18"/></filter>
@@ -713,14 +775,14 @@ footer{border-top:1px solid var(--line);padding:29px 0 38px}
             <p class="project-desc">A phone-first, offline-first ledger concept for small shopkeepers, connecting voice credit, payment evidence, OCR and intelligent reconciliation.</p>
             <div class="project-tags"><span class="project-tag">Kotlin</span><span class="project-tag">Jetpack Compose</span><span class="project-tag">Room</span><span class="project-tag">ML Kit</span></div>
           </div>
-          <div class="project-actions"><a class="btn btn-dark btn-small" href="https://github.com/jagadiswarambati/PakkaKhata_gais" target="_blank" rel="noopener noreferrer">View repo <span class="btn-icon">↗</span></a></div>
+          <div class="project-actions"><a class="btn btn-lime btn-small btn-learn" href="learnings/pakkakhata.html" aria-label="See what I learned building PakkaKhata"><span>See what I learned</span><span class="btn-icon" aria-hidden="true">↗</span></a><a class="btn btn-dark btn-small" href="https://github.com/jagadiswarambati/PakkaKhata_gais" target="_blank" rel="noopener noreferrer">View repo <span class="btn-icon">↗</span></a></div>
         </article>
 
         <!-- BIS -->
         <article class="project reveal">
           <div class="project-thumb" aria-hidden="true">
             <span class="project-thumb-label">STANDARDS / SIH</span>
-            <svg viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg" role="img">
+            <svg viewBox="0 0 640 400" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" role="img">
               <defs>
                 <linearGradient id="bisBg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#eef4fb"/><stop offset="1" stop-color="#d8e8f8"/></linearGradient>
                 <filter id="bisShadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="17" stdDeviation="18" flood-opacity=".12"/></filter>
@@ -762,8 +824,10 @@ footer{border-top:1px solid var(--line);padding:29px 0 38px}
             <p class="project-desc">A current SIH project under active development. The portfolio intentionally presents it as a live build rather than as a finished product.</p>
             <div class="project-tags"><span class="project-tag">SIH</span><span class="project-tag">AI</span><span class="project-tag">Product</span><span class="project-tag">In progress</span></div>
           </div>
-          <div class="project-actions"><a class="btn btn-dark btn-small" href="https://github.com/jagadiswarambati/BIS" target="_blank" rel="noopener noreferrer">View build <span class="btn-icon">↗</span></a></div>
+          <div class="project-actions"><a class="btn btn-lime btn-small btn-learn" href="learnings/bis-smart-assist.html" aria-label="See what I learned building BIS Smart Assist"><span>See what I learned</span><span class="btn-icon" aria-hidden="true">↗</span></a><a class="btn btn-dark btn-small" href="https://github.com/jagadiswarambati/BIS" target="_blank" rel="noopener noreferrer">View build <span class="btn-icon">↗</span></a></div>
         </article>
+      </div>
+        </div>
       </div>
     </div>
   </section>
@@ -970,6 +1034,153 @@ footer{border-top:1px solid var(--line);padding:29px 0 38px}
     el.addEventListener('blur', hide);
   });
   window.addEventListener('resize', () => { if (active) render(); }, {passive:true});
+})();
+
+// Pinned horizontal project showcase.
+// Progressive enhancement: native vertical scrolling drives a sticky stage, so scrolling is never trapped or hijacked.
+// Only enabled on roomy, motion-tolerant screens; everything else keeps the plain vertical project list.
+(function initHorizontalProjects(){
+  const wrap = document.querySelector('[data-hscroll]');
+  if (!wrap) return;
+  const stage = wrap.querySelector('.hscroll-stage');
+  const viewport = wrap.querySelector('.hscroll-viewport');
+  const track = wrap.querySelector('[data-hscroll-track]');
+  const cards = [...track.querySelectorAll('.project')];
+  const ticks = [...wrap.querySelectorAll('[data-hs-tick]')];
+  const countEl = wrap.querySelector('[data-hs-current]');
+  const hint = wrap.querySelector('[data-hs-hint]');
+  const header = document.querySelector('.site-header');
+  const mq = window.matchMedia('(min-width:1000px) and (min-height:640px) and (prefers-reduced-motion:no-preference)');
+  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+
+  let on = false, centers = [], range = 0, pinLen = 0, hold = 0, step = 1;
+  let target = 0, current = 0, raf = 0, activeIdx = -1;
+
+  function enable() {
+    on = true;
+    wrap.classList.add('hscroll-on');
+    cards.forEach(c => c.classList.add('visible'));
+    measure();
+    update(true);
+  }
+
+  function disable() {
+    on = false;
+    cancelAnimationFrame(raf); raf = 0;
+    wrap.classList.remove('hscroll-on');
+    wrap.style.height = '';
+    wrap.style.removeProperty('--hh');
+    track.style.transform = '';
+    cards.forEach(c => {
+      c.style.removeProperty('--s'); c.style.removeProperty('--o'); c.style.removeProperty('--px');
+      c.classList.remove('is-active');
+    });
+    activeIdx = -1;
+  }
+
+  function measure() {
+    if (!on) return;
+    const hh = header ? header.offsetHeight : 76;
+    wrap.style.setProperty('--hh', hh + 'px');
+    const vw = viewport.clientWidth;
+    centers = cards.map(c => c.offsetLeft + c.offsetWidth / 2 - vw / 2);
+    range = Math.max(0, centers[centers.length - 1] - centers[0]);
+    step = cards.length > 1 ? range / (cards.length - 1) : 1;
+    hold = Math.round(window.innerHeight * 0.22);          // brief rest on the first and last card
+    pinLen = Math.round(range * 0.8) + hold * 2;            // vertical distance spent inside the pinned stage
+    wrap.style.height = (stage.offsetHeight + pinLen) + 'px';
+    readTarget();
+    current = target;
+  }
+
+  function readTarget() {
+    const hh = header ? header.offsetHeight : 76;
+    const into = hh - wrap.getBoundingClientRect().top;      // px scrolled since the stage pinned
+    const p = clamp((into - hold) / Math.max(1, pinLen - hold * 2), 0, 1);
+    target = centers[0] + p * range;
+    return p;
+  }
+
+  function update(immediate) {
+    if (!on) return;
+    stage.scrollLeft = 0; viewport.scrollLeft = 0;           // guard against focus-induced scrolling
+    const p = readTarget();
+    if (immediate) current = target;
+    else current += (target - current) * 0.14;
+    if (Math.abs(target - current) < 0.3) current = target;
+
+    track.style.transform = 'translate3d(' + (-current).toFixed(2) + 'px,0,0)';
+
+    let nearest = 0, best = Infinity;
+    cards.forEach((c, i) => {
+      const d = (centers[i] - current) / (step || 1);         // 0 = centred, ±1 = one card away
+      const a = Math.min(1, Math.abs(d));
+      c.style.setProperty('--s', (1 - a * 0.055).toFixed(4));
+      c.style.setProperty('--o', (1 - a * 0.5).toFixed(3));
+      c.style.setProperty('--px', (d * -22).toFixed(1) + 'px');
+      if (Math.abs(d) < best) { best = Math.abs(d); nearest = i; }
+    });
+    if (nearest !== activeIdx) {
+      activeIdx = nearest;
+      cards.forEach((c, i) => c.classList.toggle('is-active', i === nearest));
+      ticks.forEach((t, i) => t.classList.toggle('is-active', i === nearest));
+      if (countEl) countEl.textContent = String(nearest + 1).padStart(2, '0');
+    }
+    const prog = p * (cards.length - 1);
+    ticks.forEach((t, i) => t.style.setProperty('--fill', clamp(prog - i + 1, 0, 1).toFixed(3)));
+    if (hint) hint.style.opacity = p > 0.97 ? '0' : '1';
+
+    if (current !== target) raf = requestAnimationFrame(() => update(false));
+    else raf = 0;
+  }
+
+  function schedule() {
+    if (!on || raf) return;
+    raf = requestAnimationFrame(() => update(false));
+  }
+
+  // Document-space scroll position for a given card.
+  function scrollYForCard(i) {
+    const hh = header ? header.offsetHeight : 76;
+    const wrapTop = wrap.getBoundingClientRect().top + window.scrollY;
+    const frac = cards.length > 1 ? i / (cards.length - 1) : 0;
+    return wrapTop - hh + hold + frac * (pinLen - hold * 2);
+  }
+
+  window.addEventListener('scroll', schedule, { passive: true });
+  let resizeTimer = 0;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      if (mq.matches && !on) enable();
+      else if (!mq.matches && on) disable();
+      else if (on) { measure(); update(true); }
+    }, 90);
+  });
+  window.addEventListener('load', () => { if (on) { measure(); update(true); } });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { if (on) { measure(); update(true); } });
+
+  ticks.forEach((t, i) => t.addEventListener('click', () => {
+    if (!on) return;
+    window.scrollTo({ top: scrollYForCard(i), behavior: 'smooth' });
+  }));
+
+  // Keyboard users tabbing into an off-screen card bring it into view.
+  track.addEventListener('focusin', (e) => {
+    if (!on) return;
+    const card = e.target.closest('.project');
+    const i = cards.indexOf(card);
+    if (i < 0) return;
+    stage.scrollLeft = 0; viewport.scrollLeft = 0;
+    if (Math.abs(centers[i] - current) > step * 0.35) {
+      window.scrollTo({ top: scrollYForCard(i), behavior: 'instant' });
+      update(true);
+    }
+  });
+
+  const onChange = () => { if (mq.matches && !on) enable(); else if (!mq.matches && on) disable(); };
+  if (mq.addEventListener) mq.addEventListener('change', onChange); else if (mq.addListener) mq.addListener(onChange);
+  if (mq.matches) enable();
 })();
 
 </script>
